@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: geolive-dashboard
+    env: docker
+    plan: free
+    region: frankfurt
+    rootDir: dashboard
+    dockerfilePath: Dockerfile
+    envVars:
+      - key: DISCORD_CLIENT_ID
+        value: ""
+      - key: DISCORD_CLIENT_SECRET
+        value: ""
+      - key: REDIRECT_URI
+        value: ""
+      - key: FLASK_SECRET_KEY
+        value: ""
+      - key: WEATHER_API_KEY
+        value: ""
+      - key: NASA_KEY
+        value: ""
+      - key: ICON_URL
+        value: ""
