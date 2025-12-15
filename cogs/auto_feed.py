@@ -76,6 +76,19 @@ class AutoFeed(commands.Cog):
         if None in (lat, lon, mag):
             return
 
+        def parse_color(val) -> int:
+            if isinstance(val, int):
+                return val
+            if isinstance(val, str):
+                cleaned = val.strip()
+                if cleaned.startswith("#"):
+                    cleaned = cleaned[1:]
+                try:
+                    return int(cleaned, 16)
+                except Exception:
+                    return 0x00AEEF
+            return 0x00AEEF
+
         for guild in self.bot.guilds:
             for channel in guild.text_channels:
                 if not channel.permissions_for(guild.me).send_messages:  # type: ignore[arg-type]
@@ -96,9 +109,7 @@ class AutoFeed(commands.Cog):
                         lat,
                         lon,
                         depth,
-                        primary_color=int(config.get("primary_color", "0x00AEEF"), 16)
-                        if isinstance(config.get("primary_color"), str)
-                        else config.get("primary_color", 0x00AEEF),
+                        primary_color=parse_color(config.get("primary_color")),
                         icon_url=config.get("icon_url"),
                     )
                     break  # send to first channel per guild
